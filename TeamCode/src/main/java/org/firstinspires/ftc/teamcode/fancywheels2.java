@@ -1,44 +1,24 @@
-/* Copyright (c) 2017 FIRST. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted (subject to the limitations in the disclaimer below) provided that
- * the following conditions are met:
- *
- * Redistributions of source code must retain the above copyright notice, this list
- * of conditions and the following disclaimer.
- *
- * Redistributions in binary form must reproduce the above copyright notice, this
- * list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *
- * Neither the name of FIRST nor the names of its contributors may be used to endorse or
- * promote products derived from this software without specific prior written permission.
- *
- * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
- * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+//IN ORDER TO TRANSFER CODE CONNECT THE ROBOT CONTROLLER PHONE TO YOUR LAPTOP ANDPRESS RUN AT THE TOP
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 // import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
-@TeleOp(name="fancywheels", group="Linear Opmode")
-@Disabled
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
+@TeleOp
+
 public class fancywheels2 extends LinearOpMode {
 
     //elapsed time
@@ -49,6 +29,11 @@ public class fancywheels2 extends LinearOpMode {
     private DcMotor right_back = null;
     private DcMotor left_front = null;
     private DcMotor left_back = null;
+    private DcMotor armmotor;
+    private Servo armservo1;
+    private Servo armservo2;
+    private ColorSensor sensorColorRange_REV_ColorRangeSensor;
+
 
     @Override
     public void runOpMode() {
@@ -57,12 +42,38 @@ public class fancywheels2 extends LinearOpMode {
         double vertical;
         float horizontal;
         float pivot;
+        //set variable for armpower
+        float armpower;
+        //set variables for color sensor
+        int colorHSV;
+        float hue;
+        float sat;
+        float val;
+
 
         //get the motors
         right_front = hardwareMap.dcMotor.get("right_front");
         right_back = hardwareMap.dcMotor.get("right_back");
         left_front = hardwareMap.dcMotor.get("left_front");
         left_back = hardwareMap.dcMotor.get("left_back");
+        //get armmotor
+        armmotor = hardwareMap.dcMotor.get("armmotor");
+        //get the servos
+        armservo1 = hardwareMap.servo.get("armservo1");
+        armservo2 = hardwareMap.servo.get("armservo2");
+        //get color sensor
+//        sensorColorRange_REV_ColorRangeSensor = hardwareMap.colorSensor.get("sensorColorRange");
+
+
+        //set mode of motors initially to using encoders
+//        right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //set servo positions to start position
+        armservo1.setPosition(0.5);
+        armservo2.setPosition(0.5);
 
         //set the right side wheels to reverse so all wheels move in the same direction--not flipped directions
         right_front.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -79,6 +90,43 @@ public class fancywheels2 extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            //add data of color sensors to the robot--commented out code is mainly for testing
+//            telemetry.addData("Dist to tgt (cm)", ((DistanceSensor) sensorColorRange_REV_ColorRangeSensor).getDistance(DistanceUnit.CM));
+//            telemetry.addData("Light detected", ((OpticalDistanceSensor) sensorColorRange_REV_ColorRangeSensor).getLightDetected());
+//            colorHSV = Color.argb(sensorColorRange_REV_ColorRangeSensor.alpha(), sensorColorRange_REV_ColorRangeSensor.red(), sensorColorRange_REV_ColorRangeSensor.green(), sensorColorRange_REV_ColorRangeSensor.blue());
+//            hue = JavaUtil.colorToHue(colorHSV);
+//            telemetry.addData("Hue", hue);
+//            sat = JavaUtil.colorToSaturation(colorHSV);
+//            telemetry.addData("Saturation", sat);
+//            val = JavaUtil.colorToValue(colorHSV);
+//            telemetry.addData("Value", val);
+
+            //what color is being detected?
+//            if (hue < 30) {
+//                telemetry.addData("Color", "Red");
+//            } else if (hue < 60) {
+//                telemetry.addData("Color", "Orange");
+//            } else if (hue < 90) {
+//                telemetry.addData("Color", "Yellow");
+//            } else if (hue < 150) {
+//                telemetry.addData("Color", "Green");
+//            } else if (hue < 225) {
+//                telemetry.addData("Color", "Blue");
+//            } else if (hue < 350) {
+//                telemetry.addData("Color", "purple");
+//            } else {
+//                telemetry.addData("Color", "Red");
+//            }
+//
+//            //saturation testing
+//            if (sat < 0.2) {
+//                telemetry.addData("Check Sat", "Is surface white?");
+//            }
+//            telemetry.update();
+//            if (val < 0.16) {
+//                telemetry.addData("Check Val", "Is surface black?");
+//            }
+
             //set the mecanum wheel variables to gamepad joysticks
             vertical = -gamepad1.right_stick_y;
             horizontal = gamepad1.right_stick_x;
@@ -88,11 +136,32 @@ public class fancywheels2 extends LinearOpMode {
             right_back.setPower(-pivot + vertical + horizontal);
             left_front.setPower(pivot + vertical + horizontal);
             left_back.setPower(pivot + (vertical - horizontal));
+
+            //set the armpower to left_stick_y
+            armpower = gamepad1.left_stick_y;
+            armmotor.setPower(armpower);
+
+            //bumpers on gamepad control how the servo moves
+            if (gamepad1.left_bumper) {
+                armservo1.setPosition(0);
+                armservo2.setPosition(1);
+                //mainly testing for starting position
+//            } else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
+//                armservo1.setPosition(0.5);
+//                armservo2.setPosition(0.5);
+            } else if (gamepad1.right_bumper) {
+                armservo1.setPosition(1);
+                armservo2.setPosition(0);
+            }
+
             //send the data over to the robot
             telemetry.addData("Right Front Power", right_front.getPower());
             telemetry.addData("Right Back Power", right_back.getPower());
             telemetry.addData("Left Front Power", left_front.getPower());
             telemetry.addData("Left Back Power", left_back.getPower());
+            telemetry.addData("Arm Power", armpower);
+            telemetry.addData("Servo Position", armservo1.getPosition());
+            telemetry.addData("Servo Position", armservo2.getPosition());
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             //update the data on the robot
             telemetry.update();

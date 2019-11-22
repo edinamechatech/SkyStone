@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
-//IN ORDER TO TRANSFER CODE CONNECT THE ROBOT CONTROLLER PHONE TO YOUR LAPTOP ANDPRESS RUN AT THE TOP
+//IN ORDER TO TRANSFER CODE CONNECT THE ROBOT CONTROLLER PHONE TO YOUR LAPTOP AND PRESS RUN AT THE TOP
 import android.graphics.Color;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -24,7 +24,7 @@ public class fancywheels2 extends LinearOpMode {
     //elapsed time
     private ElapsedTime runtime = new ElapsedTime();
 
-    //name the different variables for the motors
+    //name the different variables for the motors/servos/sensors
     private DcMotor right_front = null;
     private DcMotor right_back = null;
     private DcMotor left_front = null;
@@ -32,6 +32,7 @@ public class fancywheels2 extends LinearOpMode {
     private DcMotor armmotor;
     private Servo armservo1;
     private Servo armservo2;
+    private Servo servo;
     private ColorSensor sensorColorRange_REV_ColorRangeSensor;
 
 
@@ -61,19 +62,22 @@ public class fancywheels2 extends LinearOpMode {
         //get the servos
         armservo1 = hardwareMap.servo.get("armservo1");
         armservo2 = hardwareMap.servo.get("armservo2");
+        servo = hardwareMap.servo.get("servo");
+
         //get color sensor
 //        sensorColorRange_REV_ColorRangeSensor = hardwareMap.colorSensor.get("sensorColorRange");
 
 
-        //set mode of motors initially to using encoders
-//        right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //set motors to run using encoders
+        right_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        right_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+       left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //set servo positions to start position
-        armservo1.setPosition(0.5);
-        armservo2.setPosition(0.5);
+        //set servo positions to start position (all raised and compact)
+        armservo1.setPosition(1.0);
+        armservo2.setPosition(0.0);
+        servo.setPosition(0.0);
 
         //set the right side wheels to reverse so all wheels move in the same direction--not flipped directions
         right_front.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -129,7 +133,10 @@ public class fancywheels2 extends LinearOpMode {
 
             //set the mecanum wheel variables to gamepad joysticks
             vertical = -gamepad1.right_stick_y;
-            horizontal = gamepad1.right_stick_x;
+            horizontal = -gamepad1.right_stick_x;
+            /**
+             * ^^^^^TESTING HORIZONTAL, TAKE OFF NEGATIVE IF DOES NOT WORK^^^^^
+             */
             pivot = gamepad1.left_stick_x;
             //set the power for the wheel motors to the variables listed above
             right_front.setPower(-pivot + (vertical - horizontal));
@@ -146,22 +153,30 @@ public class fancywheels2 extends LinearOpMode {
                 armservo1.setPosition(0);
                 armservo2.setPosition(1);
                 //mainly testing for starting position
-//            } else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
-//                armservo1.setPosition(0.5);
-//                armservo2.setPosition(0.5);
+            } else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
+                armservo1.setPosition(0.5);
+                armservo2.setPosition(0.5);
             } else if (gamepad1.right_bumper) {
                 armservo1.setPosition(1);
                 armservo2.setPosition(0);
             }
+            //a and b on gamepad control how side servo moves
+            else if (gamepad1.a) {
+                servo.setPosition(0);
+            }
+            else if (gamepad1.b) {
+                servo.setPosition(1);
+            }
 
             //send the data over to the robot
-            telemetry.addData("Right Front Power", right_front.getPower());
-            telemetry.addData("Right Back Power", right_back.getPower());
-            telemetry.addData("Left Front Power", left_front.getPower());
-            telemetry.addData("Left Back Power", left_back.getPower());
+            telemetry.addData("RF Power", right_front.getPower());
+            telemetry.addData("RB Power", right_back.getPower());
+            telemetry.addData("LF Power", left_front.getPower());
+            telemetry.addData("LB Power", left_back.getPower());
             telemetry.addData("Arm Power", armpower);
-            telemetry.addData("Servo Position", armservo1.getPosition());
-            telemetry.addData("Servo Position", armservo2.getPosition());
+            telemetry.addData("Left Claw Position", armservo1.getPosition());
+            telemetry.addData("Right Claw Position", armservo2.getPosition());
+            telemetry.addData("SideServo", servo.getPosition());
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             //update the data on the robot
             telemetry.update();

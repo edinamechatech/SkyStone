@@ -42,7 +42,7 @@ public class firstOp extends LinearOpMode {
         testservo.setPosition(0.5);
         testservo2.setPosition(0.5);
 
-        telemetry.addData("Color Distance Example", "Press start to continue...");
+        telemetry.addData("Color Distance", "Press start to continue...");
         telemetry.update();
         waitForStart();
         if (opModeIsActive()) {
@@ -98,8 +98,8 @@ public class firstOp extends LinearOpMode {
                 telemetry.addData("Servo Position", testservo2.getPosition());
                 telemetry.addData("Arm Power", armpower);
                 telemetry.update();
-                }
             }
         }
     }
+}
 

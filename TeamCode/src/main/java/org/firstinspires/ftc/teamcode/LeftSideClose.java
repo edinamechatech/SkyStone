@@ -29,9 +29,9 @@
 
 package org.firstinspires.ftc.teamcode;
 
-//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -60,10 +60,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="encoderDrivingTest")
+@Autonomous(name="LeftSideClose")
 
-    //@TeleOp
-public class encoderDrivingTest extends LinearOpMode {
+//    @TeleOp
+public class LeftSideClose extends LinearOpMode {
 
     /* Declare OpMode members. */
     //HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
@@ -137,8 +137,8 @@ public class encoderDrivingTest extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  -4, 4,4,-4,3);  // S1: Strafe left 3 Inches with 3 Sec timeout
-        encoderDrive(DRIVE_SPEED,  36,36 , 36,36,3);  // S2: Forward 36 Inches with 3 Sec timeout
+//        encoderDrive(DRIVE_SPEED,  4, -4,-4,4,3);  // S1: Strafe left 2 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  18,18, 18,18,3);  // S2: Forward 26 Inches with 3 Sec timeout
 
 //        encoderDrive(TURN_SPEED,   6, -6, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
 //        encoderDrive(DRIVE_SPEED, -3, -3, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
@@ -210,9 +210,7 @@ public class encoderDrivingTest extends LinearOpMode {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftTarget,  newRightTarget);
-                telemetry.addData("Path2",  "Running at %7d :%7d",
-                                            left_front.getCurrentPosition(),
-                                            right_front.getCurrentPosition());
+                telemetry.addData("Path2",  "Running at %7d :%7d", left_front.getCurrentPosition(), right_front.getCurrentPosition(), left_back.getCurrentPosition(), right_back.getCurrentPosition());
                 telemetry.update();
             }
 

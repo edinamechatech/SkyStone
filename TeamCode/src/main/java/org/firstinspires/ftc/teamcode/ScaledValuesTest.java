@@ -33,9 +33,6 @@ public class ScaledValuesTest extends LinearOpMode {
         double pivot;
         //set variable for armpower
         double armpower;
-        //set variables for the side servo power
-        double servopowerpositive;
-        double servopowernegative;
 
         //get the motors
         right_front = hardwareMap.dcMotor.get("right_front");
@@ -76,18 +73,53 @@ public class ScaledValuesTest extends LinearOpMode {
         while (opModeIsActive()) {
 
             //set and scale the mecanum wheel variables
-            vertical = ((-gamepad1.right_stick_y / 1.07) * (.62 * (-gamepad1.right_stick_y * -gamepad1.right_stick_y)) + .45);
-            horizontal = ((-gamepad1.right_stick_x / 1.07) * (.62 * (-gamepad1.right_stick_x * -gamepad1.right_stick_x)) + .45);
-            pivot = ((gamepad1.left_stick_x / 1.07) * (.62 * (gamepad1.left_stick_x * gamepad1.left_stick_x)) + .45);
+            vertical = -((gamepad1.right_stick_y / 1.20) * (.62 * (gamepad1.right_stick_y * gamepad1.right_stick_y)) + .20);
+            if(gamepad1.right_stick_y < 0) {
+                vertical = -((gamepad1.right_stick_y / 1.20) * (.62 * (gamepad1.right_stick_y * gamepad1.right_stick_y)) - .20);
+            }
+            if (gamepad1.right_stick_y == 0) {
+                vertical = 0;
+            }
+            if (gamepad1.right_stick_y > 0 && gamepad1.right_stick_y < .45 || gamepad1.right_stick_y < 0 && gamepad1.right_stick_y > -.45) {
+                vertical = -gamepad1.right_stick_y / 1.20;
+            }
 
-            //set the power for the wheel motors to the variables listed above
+
+            horizontal = -((gamepad1.right_stick_x / 1.20) * (.62 * (gamepad1.right_stick_x * gamepad1.right_stick_x)) + .20);
+            if(gamepad1.right_stick_x < 0) {
+                horizontal = -((gamepad1.right_stick_x / 1.20) * (.62 * (gamepad1.right_stick_x * gamepad1.right_stick_x)) - .20);
+            }
+            if (gamepad1.right_stick_x == 0) {
+                horizontal = 0;
+            }
+            if (gamepad1.right_stick_x > 0 && gamepad1.right_stick_x < .45 || gamepad1.right_stick_x < 0 && gamepad1.right_stick_x > -.45) {
+                horizontal = -gamepad1.right_stick_x / 1.20;
+            }
+
+
+            pivot = ((gamepad1.left_stick_x / 1.20) * (.62 * (gamepad1.left_stick_x * gamepad1.left_stick_x)) + .20);
+            if (gamepad1.left_stick_x < 0 ) {
+                pivot = ((gamepad1.left_stick_x / 1.20) * (.62 * (gamepad1.left_stick_x * gamepad1.left_stick_x)) - .20);
+            }
+            if (gamepad1.left_stick_x == 0) {
+                pivot = 0;
+            }
+            if (gamepad1.left_stick_x > 0 && gamepad1.left_stick_x < .45 || gamepad1.left_stick_x < 0 && gamepad1.left_stick_x > -.45) {
+                pivot = gamepad1.left_stick_x / 1.20;
+            }
+
+
+           //set the power for the wheel motors to the variables listed above
             right_front.setPower(-pivot + (vertical - horizontal));
             right_back.setPower(-pivot + vertical + horizontal);
             left_front.setPower(pivot + vertical + horizontal);
             left_back.setPower(pivot + (vertical - horizontal));
 
             //set the armpower to scaled left_stick_y
-            armpower = ((gamepad1.left_stick_y / 1.07) * (.62 * (gamepad1.left_stick_y * gamepad1.left_stick_y)) + .45);
+            armpower = (gamepad1.left_stick_y / 1.07);
+            if (gamepad1.left_stick_y < 0) {
+                armpower = (gamepad1.left_stick_y / 1.07);
+            }
             armmotor.setPower(armpower);
 
             //bumpers on gamepad control how the servo moves
@@ -103,10 +135,12 @@ public class ScaledValuesTest extends LinearOpMode {
                 armservo2.setPosition(0);
             }
             //left and right triggers on gamepad control how side servo moves
-            servopowernegative = gamepad1.left_trigger;
-            servo.setPosition(servopowernegative);
-            servopowerpositive = gamepad1.right_trigger;
-            servo.setPosition(servopowerpositive);
+            if (gamepad1.a) {
+                servo.setPosition(0);
+            }
+            if (gamepad1.b) {
+                servo.setPosition(1);
+            }
 
 
             //send the data over to the robot

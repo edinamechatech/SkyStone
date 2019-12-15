@@ -109,10 +109,8 @@ public class RightSideClose extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-//        encoderDrive(DRIVE_SPEED,  -4, 4,4,-4,3);  // S1: Strafe left 2 Inches with 3 Sec timeout
-        encoderDrive(DRIVE_SPEED,  18,18 , 18,18,3);  // S2: Forward 26 Inches with 3 Sec timeout
-        sleep(250);
-        encoderDrive(DRIVE_SPEED,  18,18 , 18,18,3);  // S2: Forward 26 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  -4, 4,4,-4,1);  // S1: Strafe left 2 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  1,1 , 1,1,1);  // S2: Forward 26 Inches with 3 Sec timeout
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

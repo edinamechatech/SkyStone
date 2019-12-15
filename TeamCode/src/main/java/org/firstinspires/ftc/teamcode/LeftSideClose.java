@@ -137,8 +137,8 @@ public class LeftSideClose extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-//        encoderDrive(DRIVE_SPEED,  4, -4,-4,4,3);  // S1: Strafe left 2 Inches with 3 Sec timeout
-        encoderDrive(DRIVE_SPEED,  18,18, 18,18,3);  // S2: Forward 26 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  4, -4,-4,4,1);  // S1: Strafe left 2 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  1,1, 1,1,1);  // S2: Forward 26 Inches with 3 Sec timeout
 
 //        encoderDrive(TURN_SPEED,   6, -6, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
 //        encoderDrive(DRIVE_SPEED, -3, -3, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout

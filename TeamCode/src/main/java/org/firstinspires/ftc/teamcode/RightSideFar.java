@@ -107,8 +107,8 @@ public class RightSideFar extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-//        encoderDrive(DRIVE_SPEED,  -4, 4,4,-4,3);  // S1: Strafe left 2 Inches with 3 Sec timeout
-        encoderDrive(DRIVE_SPEED,  35,35 , 35,35,3);  // S2: Forward 26 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  -4, 4,4,-4,1);  // S1: Strafe left 2 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  12,12 , 12,12,1);  // S2: Forward 26 Inches with 3 Sec timeout
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

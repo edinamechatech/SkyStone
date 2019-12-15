@@ -52,6 +52,8 @@ public class ScaledValuesTest extends LinearOpMode {
         left_front.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
        left_back.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+//       armmotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         //set servo positions to start position (all raised and compact)
         armservo1.setPosition(0.0);
         armservo2.setPosition(1.0);

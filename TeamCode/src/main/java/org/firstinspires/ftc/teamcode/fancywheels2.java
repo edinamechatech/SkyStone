@@ -39,7 +39,7 @@ public class fancywheels2 extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        //set the movement variables for mecanum wheels
+        //set the movement variables used for mecanum wheels
         double vertical;
         float horizontal;
         float pivot;
@@ -131,12 +131,9 @@ public class fancywheels2 extends LinearOpMode {
 //                telemetry.addData("Check Val", "Is surface black?");
 //            }
 
-            //set the mecanum wheel variables to gamepad joysticks
+            //set the mecanum wheel variables to gamepad joysticks-- vertical is right joystick up and down, horizontal is right joystick left and right, pivot is left joystick left and right
             vertical = -gamepad1.right_stick_y;
             horizontal = -gamepad1.right_stick_x;
-            /**
-             * TESTING HORIZONTAL, TAKE OFF NEGATIVE IF DOES NOT WORK
-             */
             pivot = gamepad1.left_stick_x;
             //set the power for the wheel motors to the variables listed above
             right_front.setPower(-pivot + (vertical - horizontal));
@@ -144,15 +141,14 @@ public class fancywheels2 extends LinearOpMode {
             left_front.setPower(pivot + vertical + horizontal);
             left_back.setPower(pivot + (vertical - horizontal));
 
-            //set the armpower to left_stick_y
+            //set the armpower to left joystick up and down motion
             armpower = gamepad1.left_stick_y;
             armmotor.setPower(armpower);
 
-            //bumpers on gamepad control how the servo moves
+            //bumpers on the controller control how the servo moves
             if (gamepad1.left_bumper) {
                 armservo1.setPosition(0);
                 armservo2.setPosition(1);
-                //mainly testing for starting position
             } else if (gamepad1.left_stick_button || gamepad1.right_stick_button) {
                 armservo1.setPosition(0.5);
                 armservo2.setPosition(0.5);
@@ -160,11 +156,11 @@ public class fancywheels2 extends LinearOpMode {
                 armservo1.setPosition(1);
                 armservo2.setPosition(0);
             }
-            //a and b on gamepad control how side servo moves
-            else if (gamepad1.a) {
+            //a and b on controller control how side servo moves
+            if (gamepad1.a) {
                 servo.setPosition(0);
             }
-            else if (gamepad1.b) {
+            if (gamepad1.b) {
                 servo.setPosition(1);
             }
 

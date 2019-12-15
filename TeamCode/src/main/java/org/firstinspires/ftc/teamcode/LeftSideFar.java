@@ -70,7 +70,7 @@ public class LeftSideFar extends LinearOpMode {
     //HardwarePushbot         robot   = new HardwarePushbot();   // Use a Pushbot's hardware
     private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 280;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1120;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -138,8 +138,14 @@ public class LeftSideFar extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-//        encoderDrive(DRIVE_SPEED,  4, -4,-4,4,3);  // S1: Strafe left 2 Inches with 3 Sec timeout
-        encoderDrive(DRIVE_SPEED,  35,35 , 35,35,3);  // S2: Forward 26 Inches with 3 Sec timeout
+        // bridge length is 46 inches
+        // robot needs to be 9 inches away from bridge (9 inches from the left bridge far left side (nearest to middle)
+//        //36 = 52 real inches
+        // robot is 16 and 1/2 by 18
+        // close side needs to move forwards 13 inches
+        // far side moves forwards 34 inches
+        encoderDrive(DRIVE_SPEED,  36, -36,-36,36,10);  // S1: Strafe left 2 Inches with 3 Sec timeout
+        encoderDrive(DRIVE_SPEED,  34,34, 34,34,10);  // S2: Forward 26 Inches with 3 Sec timeout
 
 //        encoderDrive(TURN_SPEED,   6, -6, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
 //        encoderDrive(DRIVE_SPEED, -3, -3, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
